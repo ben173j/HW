@@ -15,6 +15,7 @@ data1 = []
 data2 = []
 data3 = []
 data4 = []
+#invdata = [] used to contain invalid row
 
 #Opening a csv file and name it mycsv
 with open(cwb_filename) as csvfile: 
@@ -44,7 +45,8 @@ for i in range(len(data)):
     #the ID related.
 
       if(data[i][humd]=='-99.000' or data[i][humd]=='-999.000'):
-        break
+         #invdata.append(data[i]) append invalid row to a list
+        continue
       else: 
         if(data[i][ID] == dataname[0]):
           data0.append(data[i])
@@ -92,6 +94,7 @@ for i in range(len(sum)):
   a=[dataname[i],sum[i]] # Make a list to contain the ID and sum
   target_data.append(a)
 
+#print(invdata) used to check the invalid data id
 for i in range(len(target_data)):
   print(target_data[i])
 
