@@ -20,6 +20,7 @@ void receiveButton();
 
 void Display()
 {
+    sam_index=0;
     uLCD.cls();
     uLCD.textbackground_color(BLACK);
     uLCD.color(RED);
@@ -38,6 +39,7 @@ void Display()
 
 void freq(int index)
 {
+    int frin=0;
     float i;
     int selection=84;//The frequency of wave can be determined from wait_us time
                 // Thus, int selection will be the input os wait_us
@@ -46,15 +48,19 @@ void freq(int index)
     if(index==42){
         uLCD.printf("100Hz is selected");
         selection=84;
+        frin=10000;
     }
     else if(index==70){
         uLCD.printf("150Hz is selected");
         selection=50;
+        frin=15000;
     }
     else{
         uLCD.printf("200Hz is selected");
         selection=30;
+        frin=20000;
     }
+    if(button2.read()) Display();
     while(sam_index<sample)
     {   
         for(i = 0; i <= 0.9; i=i+0.01){
@@ -75,8 +81,10 @@ void freq(int index)
             sam_index++;
         }  
     }
-    
+    if(button2.read()) Display();
     for (int k = 0; k < sample; k++){
+    if(k==0) printf("%d\r\n",frin);
+    if(button2.read()) Display();
     printf("%f\r\n", ADCdata[k]);
     wait_us(100);
   } 
