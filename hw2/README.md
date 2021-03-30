@@ -15,7 +15,9 @@ Then, user can compile and run the file by typing
 "sudo mbed compile --source . --source ~/ee2405/mbed-os-build/ -m B_L4S5I_IOT01A -t GCC_ARM -f"
 in linux terminal.
 
-There are 3 bottons and 1 uLCD used in this project.
+An R-C circuit is used in this project. PLease make sure that their cutoff frequencies are 200 Hz, that is 200 = 1/(2*phi*RC)
+
+There are 3 bottons and 1 uLCD used in this project. 
 The middle button(connected to D10) is used to confirm selection / reselect the frequency of interest. The other two are for moving up and down.
 When the program starts, the uLCD will prompt the user to select which frequency of signal to be produced. After user selects the frequency of interest, the uLCD will tell the user which frequency has been 'selected'.
 If user wants to reselect the frequency, user can press the middle button again and the uLCD will reprompt the user.
