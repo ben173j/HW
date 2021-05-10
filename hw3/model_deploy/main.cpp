@@ -2,6 +2,7 @@
 #include "mbed.h"
 #include <cmath>
 #include <string.h>
+
 //FOR ACCELEROMETER
 #include "accelerometer_handler.h"
 #include "stm32l475e_iot01_accelero.h"
@@ -88,22 +89,57 @@ EventQueue mqtt_queuePublish;
 //EventQueue PUBLISH_ANGLE_queue;
 
 //FOR FLOW_CONTROL; 1 means allowed to execute, 0 means not allowed
-bool moveline_enable = 1;
-bool model_enable=1;
-bool decision_enable=1;
-bool publish_enable=1;
+bool moveline_enable = 1; // to control void moveLine(int,int)
+bool model_enable=1;//to control int Model(void)
+bool decision_enable=1;//to control Decision
+bool publish_enable=1; //to control Publish
 //FOR NN
 // Create an area of memory to use for input, output, and intermediate arrays.
 // The size of this will depend on the model you're using, and may need to be
 // determined by experimentation.
 constexpr int kTensorArenaSize = 60 * 1024;
 uint8_t tensor_arena[kTensorArenaSize];
+
+//Config datatype is used to represent the gesture trained before
 Config config;
 
+//global client used to store the client address
 MQTT::Client<MQTTNetwork,Countdown>* CLIENT;
 
+
+/*
+  ALL THE SUBROUTINES IN THIS .cpp
+*/
+//USED TO PREDICT THE MODEL
 int Model(void);
+//Used to measure the angle of inclination 
 int angle_detection(void);
+//USED for display in uLCD
+int Display(void);
+//Used to move line in uLCD
+void moveLine(int Nindex,int Pindex);
+//Used to determine the direction of line movement in uLCD
+void receive_shape(int Gindex);
+
+//Used to send threshold angle to client when USER_BUTTON is pressed
+void Decision(MQTT::Client<MQTTNetwork, Countdown>* client);
+
+//Used to publish the angle when measured angle> threshold angle and publish
+//all the angles when the preset tilting numbers have been reached
+void PUBLISH_ANGLE(MQTT::Client<MQTTNetwork, Countdown>* client,float angle,int finish,int success);
+
+//used to call RPC thread
+void calling_RPC(); 
+
+//UI is for interface, when /UI/run is entered, thread UI will be called
+void UI (Arguments *in, Reply *out);   
+//Angle is for detecting the angle of inclination, when /Angle/run is entered, thread Angle will be called
+void Angle (Arguments *in, Reply *out);
+//for closing mqtt
+void close_mqtt();
+
+
+
 // Return the result of the last prediction
 int PredictGesture(float* output) {
   // How many times the most recent gesture has been matched in a row
@@ -185,7 +221,7 @@ void Decision(MQTT::Client<MQTTNetwork, Countdown>* client)
    if(decision_enable==1){
       uLCD.cls();//cls is to clear all the texts with the background color
       uLCD.color(RED); //RED as text color
-      
+      //Lindex is the location of the white line. by knowing the location of the white line, we can know the corresponding thresholdAngle of intrest
       if(Lindex==42)ThresholdAngle=30; 
       else if(Lindex==70)ThresholdAngle=40;
       else if(Lindex==98)ThresholdAngle=50;
@@ -203,7 +239,7 @@ void Decision(MQTT::Client<MQTTNetwork, Countdown>* client)
       message.dup = false;
       message.payload = (void*) buff;
       message.payloadlen = strlen(buff) + 1;
-      int rc = client->publish(topic, message);
+      int rc = client->publish(topic, message);//this is used to publish message to client; rc=0 means successful transmission of dataa, rc=-1 means fail
       //ThisThread :: sleep_for(1s);
 
       printf("rc:  %d\r\n", rc);
@@ -220,6 +256,7 @@ void Decision(MQTT::Client<MQTTNetwork, Countdown>* client)
 
 }
 
+//accumulation for ANGLE_FOR_PYTHON
 char ANGLE_FOR_PYTHON[1000]="\0";
 
 void PUBLISH_ANGLE(MQTT::Client<MQTTNetwork, Countdown>* client,float angle,int finish,int success)
