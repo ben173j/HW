@@ -14,7 +14,7 @@ imported in the same directory:
 
 python3 and gcc compilers are necessary to sucessfully run the programs.
 There are some changes in the config.h in this project (a little bit different
-from the one given in lab)
+from the one given in lab).
 model.cpp contains the coordinates recorded during training.
 mbed_app.json needs to be reconfigured when the IP address changes.
 
