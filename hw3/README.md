@@ -23,16 +23,28 @@ mbed_app.json needs to be reconfigured when the IP address changes.
 FUNCTION AND RESULT:
 
 There is a mqtt_client.py file in https://github.com/ben173j/HW/tree/main/hw3 which is used as a client in this project.
+mqtt_client.py file will use RPC call to command mbed when server publishes message. The command
+called will depend on the information published. 
 
 USER has to first run the main.cpp file and check in sudo screen /dev/ttyACM*
 that "Sucessfully Connected" is printed in screen.
 
 Then, user can run sudo python3 mqtt_client.py to allow python to connect to the server.
-If succesful, the Python will send a RPC serial command to mbed to enter into UI mode. 
+If succesful, PC/Python will send a RPC serial command to mbed to enter into UI mode.
+uLCD will prompt user to select the threshold angle. 
+
+NOTE that mqtt_client.py and main.cpp files are in DIFFERENT folder.
 
 main.cpp file is in the model_deploy folder (https://github.com/ben173j/HW/blob/main/hw3/model_deploy/main.cpp).
 
+In main.cpp, we use gesture to select threshold angle.
+
+Selection gesture:
+1. Raising the board vertically ( The word USER on user button facing upward) means moving up.
+2. Moving(Shaking) the board horizontally ( The word user on user button facing laptop ) means moving downward.
+
 main.cpp file does two main jobs. 
+
 1. Display UI interface. User is asked to select threshold angle of interest.
    This selection will be sent through MQTT to python/PC. PYthon/PC will then send a RPC serial command to mbed to enter into angle detection mode. (some LEDs will light)
 
@@ -40,7 +52,15 @@ main.cpp file does two main jobs.
    showing "INITIALIZING" if the board is not correctly placed on a table.
    When it is placed correctly on a table, its current coordinate will be
    taken as the reference vectors(This is measured using accelerometer).
-   User can now tilt the board. (Different LEDs effect will begin) uLCD and screen will let the user know if the tilted angle is greater or smaller than the threshold angle. If tilted angle > threshold angle, this angle will be sent to client(pthon/PC) through MQTT. It will not be sent if the angle is smaller. User will have around 1s in each tilting event. After 14 angles have been recorded, all the measured angles will be sent to client(python/PC) through MQTT and FINISH will be shown in uLCD and screen.
+   User can now tilt the board. (Different LEDs effect will begin) uLCD 
+   and screen will show the tilted angle.
+   It will also notify the user know if the tilted angle is greater or smaller than the threshold angle.
+   If tilted angle > threshold angle, this angle will be sent to client(pthon/PC) through MQTT. 
+   It will not be sent if the angle is smaller. User will have around 1s in each tilting event. 
+   After 14 angles have been recorded, all the measured angles will be sent to client(python/PC) through MQTT and 
+   "FINISH" will be shown in uLCD and screen.
+
+
 
    Note: different variation of LEDs will light on each phase
 
