@@ -24,7 +24,7 @@ FUNCTION AND RESULT:
 
 There is a mqtt_client.py file in https://github.com/ben173j/HW/tree/main/hw3 which is used as a client in this project.
 
-USER has to first run the main.cpp file and check in sudo screen/dev/ttyACM*
+USER has to first run the main.cpp file and check in sudo screen /dev/ttyACM*
 that "Sucessfully Connected" is printed in screen.
 
 Then, user can run sudo python3 mqtt_client.py to allow python to connect to the server.
