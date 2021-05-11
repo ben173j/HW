@@ -23,7 +23,7 @@ mbed_app.json needs to be reconfigured when the IP address changes.
 FUNCTION AND RESULT:
 
 There is a mqtt_client.py file in https://github.com/ben173j/HW/tree/main/hw3 which is used as a client in this project.
-mqtt_client.py file will use RPC call to command mbed when server publishes message. The command
+mqtt_client.py file will use RPC call to command mbed when server publishes ceertain messages. The command
 called will depend on the information published. 
 
 USER has to first run the main.cpp file and check in sudo screen /dev/ttyACM*
