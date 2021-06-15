@@ -161,7 +161,11 @@ int main()
          }
          else{//angle =2000
             printf("Finish");
-            
+            ACC++;
+            if(ACC==10){
+               ACC=0;
+               break;
+            }
          }
         
       }
@@ -169,5 +173,5 @@ int main()
     }
       printf("distance: %1.2f\r\n",(float)ping1);
 
-   while(1);
+   while(1)
 }
