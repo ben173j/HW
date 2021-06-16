@@ -1,33 +1,24 @@
 import time
 import serial
 import sys,tty,termios
-'''
+
 Direction_car = input("Direction: ")
 while ((Direction_car.strip().isalpha()) ):
     Direction_car=input("INVALID: Direction: ")
-
 Direction_car = int(Direction_car)
 Direction_car = str(Direction_car)
-
 Distance_x = input("X: ")
 while Distance_x.strip().isalpha():
     Distance_x=input("INVALID! X: ")
-
 Distance_x = int(Distance_x)
 Distance_x = str(Distance_x)
-
-
-
 Distance_y= input("Y: ")
 while Distance_y.strip().isalpha():
     Distance_y=input("INVALID! Y: ")
-
 Distance_y = int(Distance_y)
 Distance_y = str(Distance_y)
-
-
 print("Direction: ",Direction_car ," X:",Distance_x ," Y:",Distance_y)
-'''
+
 s = serial.Serial(sys.argv[1])
 
 #print(type(Distance_x))
