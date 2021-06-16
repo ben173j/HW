@@ -19,3 +19,5 @@ At this point, the distance between the car and the apriltag
 will be measured with PING 
 and displayed in the screen of mbed.
 
+If there is no apriltag detected, the car will do nothing.
+
