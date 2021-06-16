@@ -14,7 +14,8 @@ to make the line detection works smoother.
 The car will turn to the left or right depending on the detected angle 
 in openmv.
 
-main.cpp only receives command from openmv and make a 
+main.cpp recives parameters about the line 
+from openmv and make a 
 correct logical decision in driving the car.
 
 Hence, after main.cpp has been flashed to the board and
