@@ -30,16 +30,9 @@ indicate EAST.
 X_direction has to be positive
 
 Y_direction can be both positive and negative.
-If it is positive, the car park (P) is placed one row above the car(C), like 
-the pict below,
-//
-//          | P |
-//   C
+If it is positive, the car park (P) is placed in the upper row of the car(C), 
 
-if it is negative, it becomes like this
-//
-//   C
-//          | P |
+if it is negative, the car park is placed in the lower row of the car
 
 
 After the correct input has been given, user can enter 'r' from
