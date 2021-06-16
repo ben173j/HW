@@ -173,5 +173,5 @@ int main()
     }
       printf("distance: %1.2f\r\n",(float)ping1);
 
-   while(1)
+   while(1);
 }
